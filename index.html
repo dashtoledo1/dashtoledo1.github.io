@@ -143,6 +143,20 @@ body {font-family: Arial, Helvetica, sans-serif;}
             margin-bottom: 20px;
         }
     </style>
+
+	 <style>
+
+header {
+  position: sticky;
+  top:0;
+  padding:0px;
+  background: lightblue;
+  text-align: center;
+}
+}
+	  </style>
+
+	
 </head>
 <body>
 
@@ -178,12 +192,12 @@ body {font-family: Arial, Helvetica, sans-serif;}
         <!––Fetch Data––>
          </div>
     </div>
-
+<header>
     <div id="filter-container">
         <input type="text" id="filter-input" placeholder="Filter questions..." oninput="filterData()">
         <button onclick="clearFilter()">Clear Filter</button>
     </div>
-
+</header>
     <div id="sheet-checkboxes" class="sheet-checkbox"></div>
     <div id="loading">Loading data, please wait...</div> <!-- Loading notice -->
     <div id="data-container"></div>
