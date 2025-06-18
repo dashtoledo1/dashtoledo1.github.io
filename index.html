@@ -44,9 +44,9 @@ header{position:sticky;top:0;padding:0;background:#add8e6;text-align:center}
       <span class="close">&times;</span>
       <h2>OH NO!!!</h2>
     </div>
-    <div class="modal-body">
+   <div class="modal-body"id="sheetData">
       <p>CBT Q&A for SIRE 2.0 as of 2025 March</p>
-      <p>Click this link --> <a href="https://drive.google.com/file/d/15uVQgI3K2ztFYIHYiu_0EcHe-Vks7MoE/view" target="_blank">Infinity Hotspot 05May2025</a></p>
+      <p hidden>Click this link --> <a href="https://drive.google.com/file/d/15uVQgI3K2ztFYIHYiu_0EcHe-Vks7MoE/view" target="_blank">Infinity Hotspot 05May2025</a></p>
     
     </div>
     <div class="modal-footer">
@@ -96,6 +96,45 @@ header{position:sticky;top:0;padding:0;background:#add8e6;text-align:center}
     <div id="loading">Loading data, please wait...</div> <!-- Loading notice -->
     <div id="data-container"></div>
 
+
+
+	<script>
+  async function fetchSheetData_dynamic() {
+    const sheetID = "1m6zZ-HJ6qihtyILawxTrPGDnLlCVxyAAUdBWKF5P6tY";
+    const gid = "0"; // gid of "Sheet1" is usually 0 unless renamed or moved
+
+    const url = `https://docs.google.com/spreadsheets/d/1m6zZ-HJ6qihtyILawxTrPGDnLlCVxyAAUdBWKF5P6tY/gviz/tq?tqx=out:json&sheet=Sheet1
+`;
+
+    try {
+      const response = await fetch(url);
+      const text = await response.text();
+
+      // Remove Google function wrapper: "/*O_o*/\ngoogle.visualization.Query.setResponse(...);"
+      const json = JSON.parse(text.substr(47).slice(0, -2));
+      const rows = json.table.rows;
+
+      const container = document.getElementById("sheetData");
+
+      for (let i = 1; i < rows.length; i++) {
+        const link = rows[i].c[0]?.v;
+        const text = rows[i].c[1]?.v;
+
+        if (link && text) {
+          const p = document.createElement("p");
+          p.innerHTML = `Click this link --> <a href="${link}" target="_blank">${text}</a>`;
+          container.appendChild(p);
+        }
+      }
+    } catch (err) {
+      console.error("Error fetching sheet data:", err);
+    }
+  }
+
+  fetchSheetData_dynamic();
+</script>
+
+	
     <script>
         let quizDataSets = {};
         let activeSheets = new Set();
